@@ -19,7 +19,7 @@ export class MembersService {
   user: User;
   userParams: UserParams;
 
-  constructor(private http: HttpClient, private accountService: AccountService) { 
+  constructor(private http: HttpClient, private accountService: AccountService) {
     accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
       this.userParams = new UserParams(user);
@@ -41,8 +41,8 @@ export class MembersService {
 
   getMembers(userParams: UserParams) {
     var response = this.memberCache.get(Object.values(userParams).join('-'));
-    
-    if(response) return of(response);
+
+    if (response) return of(response);
 
     let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
@@ -59,10 +59,10 @@ export class MembersService {
 
   getMember(username: string) {
     const member = [...this.memberCache.values()]
-                    .reduce((array, element) => array.concat(element.result), [])
-                    .find((member: Member) => member.username === username);
-    
-    if(member) return of(member);
+      .reduce((array, element) => array.concat(element.result), [])
+      .find((member: Member) => member.username === username);
+
+    if (member) return of(member);
 
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
@@ -82,6 +82,18 @@ export class MembersService {
 
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
+  }
+
+  addLike(username: string) {
+    return this.http.post(this.baseUrl + 'likes/' + username, {});
+  }
+
+  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = this.getPaginationHeaders(pageNumber, pageSize);
+
+    params = params.append('predicate', predicate);
+
+    return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes', params);
   }
 
   private getPaginatedResult<T>(url: string, params: HttpParams) {
