@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AutoMapper;
 using DatingApp.API.DTOs;
@@ -29,6 +30,7 @@ namespace DatingApp.API.Helpers
                         src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url
                     )
                 );
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
         }
     }
 }

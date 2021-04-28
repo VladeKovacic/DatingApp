@@ -80,16 +80,16 @@ namespace DatingApp.API.Controllers
 
             if (message.Sender.UserName != username && message.Recipient.UserName != username) return Unauthorized();
 
-            if(message.Sender.UserName == username) message.SenderDeleted = true;
+            if (message.Sender.UserName == username) message.SenderDeleted = true;
 
-            if(message.Recipient.UserName == username) message.RecipientDeleted = true;
+            if (message.Recipient.UserName == username) message.RecipientDeleted = true;
 
-            if(message.SenderDeleted && message.RecipientDeleted)
+            if (message.SenderDeleted && message.RecipientDeleted)
             {
-                    _messageRepository.DeleteMessage(message);
+                _messageRepository.DeleteMessage(message);
             }
 
-            if(await _messageRepository.SaveAllAsync()) return Ok();
+            if (await _messageRepository.SaveAllAsync()) return Ok();
 
             return BadRequest("Problem deleting the message");
         }

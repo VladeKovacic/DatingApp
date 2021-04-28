@@ -1,4 +1,5 @@
 using System.Text;
+using System.Threading.Tasks;
 using DatingApp.API.Data;
 using DatingApp.API.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,7 +14,8 @@ namespace DatingApp.API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentityCore<AppUser>(opt => {
+            services.AddIdentityCore<AppUser>(opt =>
+            {
                 opt.Password.RequireNonAlphanumeric = false;
 
             })
@@ -24,7 +26,7 @@ namespace DatingApp.API.Extensions
             .AddEntityFrameworkStores<DataContext>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => 
+                .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -33,6 +35,23 @@ namespace DatingApp.API.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accesToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accesToken) && path.StartsWithSegments("/hubs"))
+                            {
+                                context.Token = accesToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization(opt =>
@@ -40,8 +59,8 @@ namespace DatingApp.API.Extensions
                 opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
                 opt.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
             });
-            
+
             return services;
-        } 
+        }
     }
 }
