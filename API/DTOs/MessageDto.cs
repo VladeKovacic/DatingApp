@@ -10,8 +10,6 @@ namespace DatingApp.API.DTOs
         public string SenderUsername { get; set; }
         public string SenderPhotoUrl { get; set; }
         public int RecipientId { get; set; }
-        
-        [JsonPropertyName("recipientUsername")]
         public string RecipientUsername { get; set; }
         public string RecipientPhotoUrl { get; set; }
         public string Content { get; set; }

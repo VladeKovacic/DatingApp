@@ -29,6 +29,18 @@ namespace DatingApp.API.Helpers
                     opt => opt.MapFrom(
                         src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url
                     )
+                )
+                .ForMember(
+                    dest => dest.RecipientUsername,
+                    opt => opt.MapFrom(
+                        src => src.Recipient.UserName
+                    )
+                )
+                .ForMember(
+                    dest => dest.SenderUsername,
+                    opt => opt.MapFrom(
+                        src => src.Sender.UserName
+                    )
                 );
         }
     }
