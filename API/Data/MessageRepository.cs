@@ -72,9 +72,9 @@ namespace DatingApp.API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username && u.RecipientDeleted == false),
-                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username && u.SenderDeleted == false),
-                _ => query.Where(u => u.RecipientUsername == messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
+                "Inbox" => query.Where(u => u.RecipientUserName == messageParams.Username && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUserName == messageParams.Username && u.SenderDeleted == false),
+                _ => query.Where(u => u.RecipientUserName == messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
 
             return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
@@ -94,7 +94,7 @@ namespace DatingApp.API.Data
                                 .OrderBy(m => m.MessageSent)
                                 .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                                 .ToListAsync();
-            var unreadMessages = messages.Where(m => m.DateRead == null && m.RecipientUsername == currentUsername).ToList();
+            var unreadMessages = messages.Where(m => m.DateRead == null && m.RecipientUserName == currentUsername).ToList();
 
             if(unreadMessages.Any())
             {
