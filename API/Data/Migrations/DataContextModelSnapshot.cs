@@ -208,7 +208,7 @@ namespace API.Data.Migrations
                     b.Property<int>("RecipientId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("RecipientUserName")
+                    b.Property<string>("RecipientUsername")
                         .HasColumnType("text");
 
                     b.Property<bool>("SenderDeleted")
@@ -217,7 +217,7 @@ namespace API.Data.Migrations
                     b.Property<int>("SenderId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("SenderUserName")
+                    b.Property<string>("SenderUsername")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

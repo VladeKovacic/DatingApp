@@ -38,8 +38,8 @@ namespace DatingApp.API.Controllers
             {
                 Sender = sender,
                 Recipient = recipient,
-                SenderUserName = sender.UserName,
-                RecipientUserName = recipient.UserName,
+                SenderUsername = sender.UserName,
+                RecipientUsername = recipient.UserName,
                 Content = createMessageDto.Content
             };
 

@@ -207,9 +207,9 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     SenderId = table.Column<int>(type: "integer", nullable: false),
-                    SenderUserName = table.Column<string>(type: "text", nullable: true),
+                    SenderUsername = table.Column<string>(type: "text", nullable: true),
                     RecipientId = table.Column<int>(type: "integer", nullable: false),
-                    RecipientUserName = table.Column<string>(type: "text", nullable: true),
+                    RecipientUsername = table.Column<string>(type: "text", nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
                     DateRead = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     MessageSent = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
